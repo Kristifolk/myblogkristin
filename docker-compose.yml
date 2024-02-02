@@ -1,0 +1,29 @@
+version: '3.8'
+services: #все контейнеры писать внутри
+    web-myblogkristin:
+        build:
+            context: . # загрузка DockerFile
+        container_name: web-myblogkristin #название контейнера
+        volumes: # мантирование каталогов
+            - ./:/var/www/html/
+        restart: always # всегда перезагружать если остановился
+        depends_on: # запускать этот контейнер после того как запуститься db
+            - db-myblogkristin
+        extra_hosts:
+            - "myblogkristin.test:127.0.0.1"
+        ports:
+            - "82:80"
+    db-myblogkristin:
+        image: mysql
+        container_name: db-myblogkristin
+        tty: true
+        volumes:
+            - ./mysql_data:/var/lib/mysql/
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: myblogkristin
+            MYSQL_USER: myblogkristin
+            MYSQL_PASSWORD: root
+        restart: always
+        ports:
+            - "3382:3306"
