@@ -21,5 +21,5 @@ if (ini_get("session.use_cookies")) {
 //session_destroy();
 session_unset();
 // Перенаправить пользователя на страницу выхода
-header("Location: ../views/main.php");
+header("Location: ../index.php");
 exit;

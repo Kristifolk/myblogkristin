@@ -1,7 +1,7 @@
 <?php
 
-include '../models/db.php';
 session_start();
+include '../models/db.php';
 error_reporting(E_ALL);//показывать ошибки
 ini_set('display_errors', 1);
 ?>

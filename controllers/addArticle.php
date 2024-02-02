@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = mysqli_query($connection, $query);///
 
         if ($result) {
-            header('Location: ../views/main.php'); //сообщение где. Статья добавлена!
+            header('Location: ../index.php'); //сообщение где. Статья добавлена!
         } else {
             echo 'Ошибка сохранения данных: ' . mysqli_error($connection);
         }

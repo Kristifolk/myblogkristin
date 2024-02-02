@@ -22,7 +22,7 @@ include "../templates/header.php"; ?>
 <p>текст</p>
 
 
-<a href="/views/main.php">На главную</a>
+<a href="/index.php">На главную</a>
 
 </body>
 </html>

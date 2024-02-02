@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if (!empty($row)) {
                         $_SESSION['auth'] = true;
                     }
-                    header('Location: ../views/main.php');
+                    header('Location: ../index.php');
                     exit;
                 } else {
                     echo "Пароль не совпадает";

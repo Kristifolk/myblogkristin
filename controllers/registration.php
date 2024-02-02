@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($result) {
             $_SESSION['auth'] = true;
-            header('Location: ../views/main.php');
+            header('Location: ../index.php');
             //exit;
         } else {
             echo 'Ошибка сохранения данных: ' . mysqli_error($connection);
