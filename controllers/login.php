@@ -33,6 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // Пароль совпадает, редирект
                     if (!empty($row)) {
                         $_SESSION['auth'] = true;
+                        $_SESSION['id'] = $id;//TODO не видит Id из сессии для редактирования профиля, если убирать стр, то убрат это
                     }
                     header('Location: ../index.php');
                     exit;

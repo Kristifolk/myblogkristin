@@ -1,5 +1,6 @@
 <?php
 
+global $connection;
 ini_set('error_reporting', E_ALL);
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);//показывать ошибки
@@ -7,12 +8,15 @@ include '../models/db.php';
 
 // Проверяем, что запрос является POST-запросом
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     $name = $_POST['name'];
     $tel = $_POST['tel'];
     $email = $_POST['email'];
     $password = $_POST['password'];
     $new_password = $_POST['new_password'] ?? null;
-    $id = $_POST['id'];
+    //TODO не видит Id из сессии. РАнее передавалось через Url в запросе. Разобраться
+    //$id =  $_SESSION['id'];
+    //var_dump($id);
 
     if (!empty($password)) { // поля, заполняемые пользователем не пустые
         $query = "SELECT * FROM users WHERE id = '$id'";

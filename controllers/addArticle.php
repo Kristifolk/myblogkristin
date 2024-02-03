@@ -26,8 +26,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $categoryId = $row['id'];
             // Код для сохранения файла на сервере
-            $uploadDir = '../uploads/'; // путь к директории для сохранения файлов
+            $uploadDir = '/uploads/img/'; // путь к директории для сохранения файлов
             $uploadFile = $uploadDir . basename($image['name']);
+
+            $imgName = $image['name'];
+            $imgtmp = $image['tmp_name'];
+
+            $fileinfo = pathinfo($imgName);
+            $path ='../uploads/img/' . rand(1,1000).'.'.$fileinfo['extension'];
+            $result = move_uploaded_file($imgtmp, $path);
+
             $query = "INSERT INTO articles (heading, author, article, image, category_id) VALUES ('$heading', '$author', '$article', '$uploadFile', $categoryId)";
 
             $result = mysqli_query($connection, $query);

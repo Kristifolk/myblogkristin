@@ -25,7 +25,7 @@ if (!empty($_SESSION['auth'])):
         <input type="tel" name="tel" id="tel" placeholder="+7(999) 99-99-999"><br><br>
 
         <label for="email">Email:</label>
-        <input type="email" name="email" id="email" placeholder="test@test.ru">"><br><br>
+        <input type="email" name="email" id="email" placeholder="test@test.ru"><br><br>
 
         <label for="new_password">Новый пароль:</label>
         <input type="password" name="new_password" id="new_password" placeholder="Новый пароль"><br><br>

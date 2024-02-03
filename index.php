@@ -2,9 +2,12 @@
 
 session_start();
 include 'models/db.php';
+include "function.php";
 error_reporting(E_ALL);//показывать ошибки
 ini_set('display_errors', 1);
-
+$categories =  categories();
+$posts = allPosts();
+$post = post();//переменнная уйдет в стр 1 статьи
 
 ?>
 <!DOCTYPE html>
@@ -28,22 +31,12 @@ if (!empty($_SESSION['auth'])):
     }
     ?>
     <!-- отформатировать вывод слева статьи и фото и категории справа-->
-    <p>статьи</p>
-    <p>фото</p>
-    <p>категории</p>
     <!--
-    // На главной странице выводится список статей
-    if () {//вывести слева, как область видимости задать
-    $query = "SELECT heading FROM articles";
-    return $query;
+
     //при клике на название статьи редирект
     //header('Location: ../views/article.php');
     }
-    //При клике на название статьи открывается список всех статей
-    if () {//вывести справа, как область видимости задать
-    $query = "SELECT category FROM articles";//////// articles или categories
-    return $query;
-    }
+
     //при клике на название категории редирект?
     //header('Location: ');
     -->
@@ -58,6 +51,48 @@ else: ?>
     <!-- добавить поиск -->
 <?php
 endif; ?>
+<!-- Статьи START -->
+<div class="container">
+    <div class="content row">
+        <div class="main-content col-12 col-md-9">
+            <?php foreach ($posts as $post) :?>
+                <div class="post row">
+                    <!-- картинка -->
+                    <div class="img col-12 col-md-4">
+                        <img src="<?=  $post['image']; ?>" class="img-thumbnail">
+                    </div>
+                    <!-- заголовок статьи -->
+                    <div class="post-text col-12 col-md-8">
+                        <h5>
+                            <a href="<?= 'single.php?post=' . $post['id']; ?>"><?= $post['heading']; ?></a>
+                        </h5>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+
+        </div>
+        <!-- sidebar -->
+        <div class="sidebar col-12 col-md-3">
+            <!-- поиск -->
+            <div class="section-search">
+                <h4>Поиск</h4>
+                <form action="search.php" method="get">
+                    <input class="text-input" type="text" name="search">
+                </form>
+            </div>
+            <!-- категории -->
+            <div class="section-topic">
+                <h4>Категории</h4>
+                <ul>
+                    <?php foreach ($categories as $category) : ?>
+                        <li><a href="<?= $category['title']; ?>"</a></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Статьи END -->
 
 </body>
 </html>
