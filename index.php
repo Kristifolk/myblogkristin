@@ -4,6 +4,8 @@ session_start();
 include 'models/db.php';
 error_reporting(E_ALL);//показывать ошибки
 ini_set('display_errors', 1);
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +20,13 @@ include "templates/header.php";
 if (!empty($_SESSION['auth'])):
     ?>
     <h1>myblogkristin</h1>
-
+    <?php
+    //TODO msg пропадает только после перезагрузки
+    if (isset($_SESSION['msg'])) {
+        echo $_SESSION['msg'];
+        unset($_SESSION['msg']); // Очистить значение ключа msg после его использования
+    }
+    ?>
     <!-- отформатировать вывод слева статьи и фото и категории справа-->
     <p>статьи</p>
     <p>фото</p>

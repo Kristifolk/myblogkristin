@@ -61,15 +61,10 @@ if (mysqli_num_rows($result) < 1) {//если таблица не существ
             article TEXT NOT NULL,
             image VARCHAR(255) NOT NULL,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-            UNIQUE (heading),
             FOREIGN KEY (category_id) REFERENCES categories(id)
         )";
     mysqli_query($connection, $query);
 }
 
-
-
-//$query = "INSERT INTO articles (category_id) SELECT id FROM categories";
-//mysqli_query($connection, $query);
 
 //TODO При запуске докер - должна устанавливаться база, в которой будет 5-6 статей примеров

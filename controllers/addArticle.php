@@ -1,5 +1,6 @@
 <?php
 
+session_start();
 global $connection, $query;
 error_reporting(E_ALL);//показывать ошибки
 ini_set('display_errors', 1);
@@ -22,35 +23,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $query = "SELECT id FROM categories WHERE title = '$category'";// идентификатор категории на основе выбранной категории
         $result = mysqli_query($connection, $query);
         if ($row = mysqli_fetch_assoc($result)) {
+
             $categoryId = $row['id'];
             // Код для сохранения файла на сервере
             $uploadDir = '../uploads/'; // путь к директории для сохранения файлов
             $uploadFile = $uploadDir . basename($image['name']);
             $query = "INSERT INTO articles (heading, author, article, image, category_id) VALUES ('$heading', '$author', '$article', '$uploadFile', $categoryId)";
+
             $result = mysqli_query($connection, $query);
-
-            $query = "INSERT INTO categories (title) VALUES ('$category')";
-            $result = mysqli_query($connection, $query);
-
-
-//            //TODO надо ли вывод этих сообщений и ошибка.. + вывод статья добавлена и на главную?
-//            if (move_uploaded_file($image['tmp_name'], $uploadFile)) {
-//                echo "Файл успешно загружен.";
-//            } else {
-//                echo "Ошибка загрузки файла.";
-//                return true;
-//            }
         }
 
-        $result = mysqli_query($connection, $query);///
-
-        if ($result) {
-            header('Location: ../index.php'); //сообщение где. Статья добавлена!
-        } else {
-            echo 'Ошибка сохранения данных: ' . mysqli_error($connection);
-        }
-
-        //////////кусок из валидации перепишется
         //TODO имя любого зарегистрированного пользователя, или можно сделать именно авторизованного пользователя и вообще вставлять имя автоматически сразу из сессии
         $query = "SELECT * FROM users WHERE name = '$author' ";
         $result = mysqli_query($connection, $query);
@@ -58,8 +40,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (mysqli_num_rows($result) < 1) {
             echo "Нет такого пользователя. Введите имя зарегистрированного пользователя";//нужн ли проверка, что выкладывает статью именно авторизованный пользователь, может автор = текущий пользователь. Или можно выкладывать чужие статьи и эта проверка лишняя
             return true;
+        } elseif ($result) {
+            $_SESSION['msg'] = "Статья успешно загружена";
+            header('Location: ../index.php');
+            return;
+        } else {
+            echo 'Ошибка сохранения данных: ' . mysqli_error($connection);
+            return true;
         }
-        /////////
         mysqli_close($connection);
     } else {
         echo "Все поля обязательны для заполнения";
@@ -104,7 +92,6 @@ function validation(
         echo "Некорректный ввод текста статьи";
         return true;
     }
-    //TODO проверки файла протестить
     if (!in_array($image['type'], $allowedTypes)) {
         echo "Некорректный тип файла. Разрешены только JPEG и PNG.";
         return true;
