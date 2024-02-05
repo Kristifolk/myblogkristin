@@ -7,7 +7,6 @@ error_reporting(E_ALL);//показывать ошибки
 ini_set('display_errors', 1);
 $categories = categories();
 $posts = allPosts();
-$post = post();//переменнная уйдет в стр 1 статьи
 
 ?>
 <!DOCTYPE html>
@@ -66,7 +65,7 @@ endif; ?>
                     <!-- заголовок статьи -->
                     <div class="post-text col-12 col-md-8">
                         <h5>
-                            <a href="<?= 'article.php?post=' . $post['id']; ?>"><?= $post['heading']; ?></a>
+                            <a href="<?= 'views/article.php?post=' . $post['id']; ?>"><?= $post['heading']; ?></a>
                         </h5>
                     </div>
                 </div>
@@ -82,7 +81,7 @@ endif; ?>
                 <ul>
                     <?php
                     foreach ($categories as $category) : ?>
-                        <li><a href="<?= 'categories.php?post=' . $category['id']; ?>"><?= $category['title']; ?></a></li>
+                        <li><a href="<?= 'views/categories.php?post=' . $category['id']; ?>"><?= $category['title']; ?></a></li>
                     <?php
                     endforeach; ?>
                 </ul>

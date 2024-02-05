@@ -13,14 +13,19 @@ function allPosts()
 
 }
 
-// Страница одной статьи все данные кроме id
-function post()
+// Страница одной статьи
+function post($id)
 {   //статья из articles = heading,  category_id (чтобы получить название категории), author , article, image, created_at
     //из табл categories надо title
     global $connection;
-    $query = "SELECT c.title AS category, a.id, a.heading, a.author, a.created_at, a.image, a.article
+    $id = mysqli_real_escape_string($connection, $id); // Экранирование значения $id. иначе может привести к уязвимости SQL-инъекции.
+    $query = "SELECT c.title AS category, a.id, a.heading, a.author, a.created_at, a.image, a.article 
         FROM articles AS a
-        LEFT JOIN categories AS c ON c.title = a.category_id"  ;
+        JOIN categories AS c ON c.id = a.category_id
+        WHERE a.id=$id";
+//    $query = "SELECT c.title AS category, a.id, a.heading, a.author, a.created_at, a.image, a.article
+//        FROM articles AS a
+//        JOIN categories AS c ON c.id = a.category_id"  ;
     $result = mysqli_query($connection, $query);
     return $result;
 }
@@ -31,6 +36,19 @@ function categories()
     //все категории из categories
     global $connection;
     $query = "SELECT * FROM categories";
+    $result = mysqli_query($connection, $query);
+    return $result;
+}
+
+// Страница одной категории
+function postsCategory()
+{
+    //все посты одной из категории
+    global $connection;
+    $query = "SELECT c.title AS category, a.id, a.heading, a.author, a.created_at, a.image, a.article 
+        FROM articles AS a
+        JOIN categories AS c ON c.id = a.category_id
+        WHERE c.id=category_id";
     $result = mysqli_query($connection, $query);
     return $result;
 }
