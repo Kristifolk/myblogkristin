@@ -6,7 +6,6 @@ error_reporting(E_ALL);//показывать ошибки
 ini_set('display_errors', 1);
 include '../models/db.php';//
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $category = $_POST['category'];////защита от sql иньекций в select value id
     $heading = $_POST['heading'];
@@ -25,18 +24,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($row = mysqli_fetch_assoc($result)) {
 
             $categoryId = $row['id'];
-            // Код для сохранения файла на сервере
-            $uploadDir = '/uploads/img/'; // путь к директории для сохранения файлов
-            $uploadFile = $uploadDir . basename($image['name']);
 
             $imgName = $image['name'];
             $imgtmp = $image['tmp_name'];
 
             $fileinfo = pathinfo($imgName);
-            $path ='../uploads/img/' . rand(1,1000).'.'.$fileinfo['extension'];
+            $path ='../uploads/img/' . rand(1,1000).'.'.$fileinfo['extension'];//генерируется случайное имя файла для загруженного изображения путем объединения случайного числа от 1 до 1000 с расширением файла
             $result = move_uploaded_file($imgtmp, $path);
 
-            $query = "INSERT INTO articles (heading, author, article, image, category_id) VALUES ('$heading', '$author', '$article', '$uploadFile', $categoryId)";
+            $query = "INSERT INTO articles (heading, author, article, image, category_id) VALUES ('$heading', '$author', '$article', '$path', $categoryId)";
 
             $result = mysqli_query($connection, $query);
         }

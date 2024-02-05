@@ -13,12 +13,13 @@ services: #все контейнеры писать внутри
             - "myblogkristin.test:127.0.0.1"
         ports:
             - "82:80"
+
     db-myblogkristin:
         image: mysql
         container_name: db-myblogkristin
         tty: true
         volumes:
-            - ./mysql_data:/var/lib/mysql/
+            - ./dump:/docker-entrypoint-initdb.d
         environment:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_DATABASE: myblogkristin
@@ -27,3 +28,16 @@ services: #все контейнеры писать внутри
         restart: always
         ports:
             - "3382:3306"
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: phpmyadmin
+        links:
+            - db-myblogkristin
+        environment:
+            PMA_HOST: db-myblogkristin
+            PMA_PORT: 3306
+            PMA_ARBITRARY: 1
+        ports:
+            - '89:80'
+        restart: always

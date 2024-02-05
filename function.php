@@ -30,7 +30,7 @@ function categories()
 {
     //все категории из categories
     global $connection;
-    $query = "SELECT title FROM categories";
+    $query = "SELECT * FROM categories";
     $result = mysqli_query($connection, $query);
     return $result;
 }
