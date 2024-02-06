@@ -27,14 +27,13 @@ function post($id)
     return mysqli_query($connection, $query);
 }
 
-//На главной странице выводится список категорий
+//Список категорий
 function categories(): array
 {
-    //все категории из categories
     global $connection;
     $query = "SELECT * FROM categories";
     $result = mysqli_query($connection, $query);
-    return mysqli_fetch_all($result, MYSQLI_ASSOC);
+    return mysqli_fetch_all($result, MYSQLI_ASSOC);//MYSQLI_ASSOC - это константа, которая указывает функции mysqli_fetch_all() возвращать результат запроса в виде ассоциативного массива
 }
 
 // Все посты одной категории
@@ -48,3 +47,14 @@ function articlesByCategoryId($id): array
     $result = mysqli_query($connection, $query);
     return mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
+
+function getSearch($search)
+{
+    global $connection;
+    $query = "SELECT * FROM articles
+    WHERE heading LIKE '%{$search}%'";
+    $result = mysqli_query($connection, $query);
+    return mysqli_fetch_all($result, MYSQLI_ASSOC);
+}
+//Конструкция LIKE '%{$search}%' для поиска значений, которые содержат заданную подстроку $search.
+// Здесь % - это символ подстановки, который соответствует любому количеству символов (включая ноль символов).

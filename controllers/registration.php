@@ -16,8 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!empty($name) && !empty($tel) && !empty($email) && !empty($password) && !empty($confirmPassword)) { // поля, заполняемые пользователем не пустые
 
-        $validation = validation($password, $confirmPassword, $email, $tel, $name, $connection);
-        if ($validation) {
+        $notValid = validation($password, $confirmPassword, $email, $tel, $name, $connection);
+        if ( $notValid) {
             return;
         }
 
@@ -29,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($result) {
             $_SESSION['auth'] = true;
+            $_SESSION['author'] = $name;
             header('Location: ../index.php');
             //exit;
         } else {
