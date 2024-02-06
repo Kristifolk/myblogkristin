@@ -4,11 +4,16 @@ include '../models/db.php';
 include "../function.php";
 error_reporting(E_ALL);//показывать ошибки
 ini_set('display_errors', 1);
-
 $categories = categories();
-
-$result = postsCategory();
-$postsCategory = mysqli_fetch_assoc($result);
+//var_dump($categories);
+$postId = $_GET['post'] ?? null;
+$title = '';
+if ($postId) {
+    $articles = articlesByCategoryId($postId);
+    $title = $categories[array_search($postId, array_column($categories, 'id'))]['title'];//array_search — Осуществляет поиск данного значения в массиве и возвращает ключ первого найденного элемента в случае успешного выполнения
+} else {
+    $articles = [];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,31 +30,30 @@ include "../templates/header.php"; ?>
 <div class="container">
     <div class="content row">
         <div class="main-content col-12 col-md-9">
-
-
-            <h2>Статьи с раздела <?= $categories['title']; ?></h2>
-
-            <?php
-            foreach ($categories as $category) : ?>
-                <h2>Статьи с раздела <?= $categories['title']; ?></h2>
-            <?php
-            endforeach; ?>
-
-
-            <?php foreach ($postsCategory as $post) : ?>
-                <div class="post row">
-                    <!-- картинка -->
-                    <div class="img col-12 col-md-4">
-                        <img src="<?= $post['image']; ?>" class="img-thumbnail">
+            <h2 class="mb-3">Статьи категории: <?= $title ?></h2>
+            <div class="row row-cols-1 g-4">
+                <?php
+                foreach ($articles as $article):
+                    ?>
+                    <!-- ARTICLE-->
+                    <div class="single-post col">
+                        <div class="card p-3">
+                            <!-- картинка -->
+                            <img src="<?= $article['image'] ?? '' ?>" class="card-img-top" alt="">
+                            <div class="card-body">
+                                <h5 class="card-title"><?= $article['heading']; ?></h5>
+                                <i class="far fa-user">Автор: <?= $article['author']; ?></i>
+                                <i class="far fa-calendar">Дата создания: <?= $article['created_at']; ?></i>
+                            </div>
+                            <div class="single-post-text col-12">
+                                <p class="card-text"><?= $article['article']; ?></p>
+                            </div>
+                        </div>
                     </div>
-                    <!-- описание -->
-                    <div class="post-text col-12 col-md-8">
-                            <i class="far fa-user">Автор: <?= $post['author']; ?></i>
-                            <i class="far fa-calendar">Дата создания: <?= $post['created_at']; ?></i>
-                            <p class="preview-text"><?= $post['article']; ?></p>
-                    </div>
-                </div>
-            <?php endforeach; ?>
+                <?php
+                endforeach;;
+                ?>
+            </div>
         </div>
         <!-- sidebar -->
         <div class="sidebar col-12 col-md-3">
@@ -59,17 +63,18 @@ include "../templates/header.php"; ?>
                 <ul>
                     <?php
                     foreach ($categories as $category) : ?>
-                        <li><a href="<?= 'categories.php?post=' . $category['id']; ?>"><?= $category['title']; ?></a></li>
+                        <li><a href="<?= 'categories.php?post=' . $category['id']; ?>"><?= $category['title']; ?></a>
+                        </li>
                     <?php
                     endforeach; ?>
                 </ul>
             </div>
         </div>
         <!-- sidebar END -->
-        </div>
     </div>
 </div>
 <!-- Статья END -->
+
 
 </body>
 </html>

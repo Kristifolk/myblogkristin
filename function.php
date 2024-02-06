@@ -7,10 +7,8 @@ function allPosts()
 {
     //все статьи из articles = heading, image
     global $connection;
-    $query = "SELECT id, heading, image FROM articles";
-    $result = mysqli_query($connection, $query);
-    return $result;
-
+    $query = "SELECT * FROM articles";
+    return mysqli_query($connection, $query);
 }
 
 // Страница одной статьи
@@ -25,30 +23,28 @@ function post($id)
         WHERE a.id=$id";
 //    $query = "SELECT c.title AS category, a.id, a.heading, a.author, a.created_at, a.image, a.article
 //        FROM articles AS a
-//        JOIN categories AS c ON c.id = a.category_id"  ;
-    $result = mysqli_query($connection, $query);
-    return $result;
+//        JOIN categories AS c ON c.id = a.category_id";
+    return mysqli_query($connection, $query);
 }
 
 //На главной странице выводится список категорий
-function categories()
+function categories(): array
 {
     //все категории из categories
     global $connection;
     $query = "SELECT * FROM categories";
     $result = mysqli_query($connection, $query);
-    return $result;
+    return mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
 
-// Страница одной категории
-function postsCategory()
+// Все посты одной категории
+function articlesByCategoryId($id): array
 {
-    //все посты одной из категории
     global $connection;
     $query = "SELECT c.title AS category, a.id, a.heading, a.author, a.created_at, a.image, a.article 
         FROM articles AS a
         JOIN categories AS c ON c.id = a.category_id
-        WHERE c.id=category_id";
+        WHERE c.id=$id";
     $result = mysqli_query($connection, $query);
-    return $result;
+    return mysqli_fetch_all($result, MYSQLI_ASSOC);
 }

@@ -24,18 +24,19 @@ include "../templates/header.php"; ?>
     <div class="content row">
         <div class="main-content col-12 col-md-9">
             <h2><?php echo $post['heading']; ?></h2>
-            <div class="single-post row">
-                <!-- картинка -->
-                <div class="img col-12">
-                    <img src="<?= $post['image']; ?>" class="img-thumbnail">
-                </div>
-                <div class="single-post-info">
-                    <i class="far fa-user">Автор: <?= $post['author']; ?></i>
-                    <i class="far fa-calendar">Дата создания: <?= $post['created_at']; ?></i>
-                    <i class="far fa-topic">Категория: <?= $post['heading']; ?></i>
-                </div>
-                <div class="single-post-text col-12">
-                    <p class="preview-text"><?= $post['article']; ?></p>
+            <!-- ARTICLE-->
+            <div class="single-post col">
+                <div class="card p-3">
+                    <!-- картинка -->
+                    <img src="<?= $post['image'] ?? '' ?>" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title"><?= $post['heading']; ?></h5>
+                        <i class="far fa-user">Автор: <?= $post['author']; ?></i>
+                        <i class="far fa-calendar">Дата создания: <?= $post['created_at']; ?></i>
+                    </div>
+                    <div class="single-post-text col-12">
+                        <p class="preview-text"><?= $post['article']; ?></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -47,7 +48,7 @@ include "../templates/header.php"; ?>
                 <ul>
                     <?php
                     foreach ($categories as $category) : ?>
-                        <li><a href="<?= 'categories.php?post=' . $category['id']; ?>"><?= $category['title']; ?></a></li>
+                        <li><a href="<?= 'categories.php?id=' . $category['id']; ?>"><?= $category['title']; ?></a></li>
                     <?php
                     endforeach; ?>
                 </ul>
