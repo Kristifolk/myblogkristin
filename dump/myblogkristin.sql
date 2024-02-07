@@ -114,7 +114,8 @@ VALUES (1, 'Lorem1', 1, 'Кристина', 'Lorem ipsum dolor sit amet, consect
 --
 ALTER TABLE `articles`
     ADD PRIMARY KEY (`id`),
-  ADD KEY `category_id` (`category_id`);
+  ADD KEY `category_id` (`category_id`),
+  ADD FULLTEXT (heading, article);
 
 --
 -- Индексы таблицы `categories`

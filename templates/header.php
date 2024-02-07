@@ -35,7 +35,7 @@
                     <?php
                     endif; ?>
                 </ul>
-                <form class="d-flex" action="../search.php" method="GET">
+                <form class="d-flex" action="/views/search.php" method="GET">
                     <input class="form-control me-2" type="search" name="search" placeholder="Поиск" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Поиск</button>
                 </form>

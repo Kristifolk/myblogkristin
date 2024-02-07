@@ -52,7 +52,8 @@ function getSearch($search)
 {
     global $connection;
     $query = "SELECT * FROM articles
-    WHERE heading LIKE '%{$search}%'";
+    WHERE heading LIKE '%{$search}%'";//По ТЗ LIKE, поиск работает по заголовкам,но если в поиске введен текст запроса начиная с пробела, то не работает
+//    $query = "SELECT * FROM articles WHERE MATCH (heading, article) AGAINST ('$search')";//поиск по заголовкам и телу статьи, пробелы в начале игноиуются
     $result = mysqli_query($connection, $query);
     return mysqli_fetch_all($result, MYSQLI_ASSOC);
 }

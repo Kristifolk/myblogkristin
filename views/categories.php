@@ -1,5 +1,6 @@
 <?php
 
+session_start();
 include '../models/db.php';
 include "../function.php";
 error_reporting(E_ALL);//показывать ошибки
