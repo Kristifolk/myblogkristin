@@ -29,25 +29,12 @@ if (!empty($_SESSION['auth'])):
         unset($_SESSION['msg']); // Очистить значение ключа msg после его использования
     }
     ?>
-    <!-- отформатировать вывод слева статьи и фото и категории справа-->
-    <!--
 
-    //при клике на название статьи редирект
-    //header('Location: ../views/article.php');
-    }
-
-    //при клике на название категории редирект?
-    //header('Location: ');
-    -->
-
-
-    <!-- добавить поиск -->
 <?php
 else: ?>
     <h1>Приветствуем в myblogkristin</h1>
     <h3>Войдите или зарегистрируйтесь, чтобы иметь возможность добавлять статьи</h3>
-    <!-- показывать статьи и категории -->
-    <!-- добавить поиск -->
+
 <?php
 endif; ?>
 <!-- Статьи START -->
@@ -60,36 +47,28 @@ endif; ?>
                 <div class="post row">
                     <!-- картинка -->
                     <div class="img col-12 col-md-4">
-                        <img src="<?= $post['image']; ?>" class="img-thumbnail">
+                        <img src="<?= $post['image']; ?>" class="img-thumbnail" alt="">
                     </div>
                     <!-- заголовок статьи -->
                     <div class="post-text col-12 col-md-8">
                         <h5>
-                            <a href="<?= 'views/article.php?post=' . $post['id']; ?>"><?= $post['heading']; ?></a>
+                            <a class="text-decoration-none"
+                               href="<?= 'views/article.php?post=' . $post['id']; ?>"><?= $post['heading']; ?></a>
                         </h5>
                     </div>
                 </div>
             <?php
             endforeach; ?>
-
         </div>
         <!-- sidebar -->
-        <div class="sidebar col-12 col-md-3">
-            <!-- категории -->
-            <div class="section-topic">
-                <h4>Категории</h4>
-                <ul>
-                    <?php
-                    foreach ($categories as $category) : ?>
-                        <li><a href="<?= 'views/categories.php?post=' . $category['id']; ?>"><?= $category['title']; ?></a></li>
-                    <?php
-                    endforeach; ?>
-                </ul>
-            </div>
-        </div>
+        <?php
+        include "templates/sidebar.php";
+        ?>
     </div>
 </div>
+<?php
+include "templates/footer.php";
+?>
 <!-- Статьи END -->
-
 </body>
 </html>

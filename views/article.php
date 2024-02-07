@@ -9,6 +9,7 @@ $categories = categories();
 $result = post($_GET['post']);
 $post = mysqli_fetch_assoc($result);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,7 +25,8 @@ include "../templates/header.php"; ?>
 <div class="container">
     <div class="content row">
         <div class="main-content col-12 col-md-9">
-            <h2><?php echo $post['heading']; ?></h2>
+            <h2><?php
+                echo $post['heading']; ?></h2>
             <!-- ARTICLE-->
             <div class="single-post col">
                 <div class="card p-3">
@@ -42,24 +44,16 @@ include "../templates/header.php"; ?>
             </div>
         </div>
         <!-- sidebar -->
-        <div class="sidebar col-12 col-md-3">
-            <!-- категории -->
-            <div class="section-topic">
-                <h4>Категории</h4>
-                <ul>
-                    <?php
-                    foreach ($categories as $category) : ?>
-                        <li><a href="<?= 'categories.php?id=' . $category['id']; ?>"><?= $category['title']; ?></a></li>
-                    <?php
-                    endforeach; ?>
-                </ul>
-            </div>
-        </div>
-        <!-- sidebar END -->
-        </div>
+        <?php
+        include "../templates/sidebar.php";
+        ?>
     </div>
 </div>
+</div>
 <!-- Статья END -->
+<?php
+include "../templates/footer.php";
+?>
 
 </body>
 </html>

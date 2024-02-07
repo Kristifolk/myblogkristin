@@ -41,6 +41,8 @@ if (!empty($_SESSION['auth'])):
 else: ?>
     <h3>Для редактирования личного профиля войдите или зарегистрируйтесь</h3>
 <?php
-endif; ?>
+endif;
+include "../templates/footer.php";
+?>
 </body>
 </html>

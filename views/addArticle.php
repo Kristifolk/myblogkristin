@@ -38,12 +38,10 @@ if (!empty($_SESSION['auth'])):
                 </select>
             </div>
             <div class="col-12 mt-3">
-
                 <label for="heading" class="form-label">Заголовок:</label>
                 <input type="text" name="heading" id="heading" placeholder="Заголовок статьи" class="form-control">
             </div>
             <div class="col-12 mt-3">
-
                 <label for="image" class="form-label">Картинка:</label>
                 <input type="hidden" name="author" id="author" value="<?= $_SESSION['author'] ?>">
                 <input type="file" name="image" id="image" class="form-control">
@@ -61,7 +59,11 @@ if (!empty($_SESSION['auth'])):
     else: ?>
         <h3>Войдите или зарегистрируйтесь, чтобы иметь возможность добавлять статьи</h3>
     <?php
-    endif; ?>
+    endif;
+    ?>
 </div>
+<?php
+include "../templates/footer.php";
+?>
 </body>
 </html>
