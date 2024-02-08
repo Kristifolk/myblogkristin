@@ -1,5 +1,9 @@
 <?php
 
+//TODO при редактировании профиля надо заполнять все поля, а если я хочу поменять только почту. Только смена пароля не обязательна
+//TODO видеть свои статьи.. типа своей стр
+//TODO возможность редактировать мою статью отсутсвует..
+session_start();
 global $connection;
 ini_set('error_reporting', E_ALL);
 ini_set('display_errors', 1);
@@ -14,9 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
     $new_password = $_POST['new_password'] ?? null;
-    //TODO не видит Id из сессии. РАнее передавалось через Url в запросе. Разобраться
-    //$id =  $_SESSION['id'];
-    //var_dump($id);
+    $id =  $_SESSION['id'];
 
     if (!empty($password)) { // поля, заполняемые пользователем не пустые
         $query = "SELECT * FROM users WHERE id = '$id'";
@@ -48,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         mysqli_close($connection);
     } else {
-        echo "Пароль обязателен для заполнения";
+        echo json_encode(['status' => 'fail', 'message' => 'Пароль обязателен для заполнения']);
     }
 }
 
@@ -72,11 +74,11 @@ function validation(
             $result = mysqli_query($connection, $query);
 
             if (!preg_match("/^[a-zA-Zа-яА-ЯёЁ\s]+$/u", $name)) {
-                echo "Некорректный формат имени";
+                echo json_encode(['status' => 'fail', 'message' => 'Некорректный формат имени']);
                 return false;
             }
             if (mysqli_num_rows($result) > 0) {
-                echo "Такое имя уже существует. Введите другие данные";
+                echo json_encode(['status' => 'fail', 'message' => 'Такое имя уже существует. Введите другие данные']);
                 return;
             } else {
                 $query = "UPDATE users SET name = '$name' WHERE id = '$id'";
@@ -93,11 +95,11 @@ function validation(
                 "/^\d{11}$/",
                 $tel
             )) {//такой формат телефона 89289999999. Можно регулярку "/^\+?\d{1,3}\(?\d{3}\)?\d{2}-?\d{2}-?\d{3}$/" то пример +7(928)99-99-999 и 89289999999 подходит и надо приводить к одному виду для уникальности в БД
-                echo "Некорректный формат телефона";
+                echo json_encode(['status' => 'fail', 'message' => 'Некорректный формат телефона']);
                 return false;
             }
             if (mysqli_num_rows($result) > 0) {
-                echo "Такой телефон уже существует. Введите другие данные";
+                echo json_encode(['status' => 'fail', 'message' => 'Такой телефон уже существует. Введите другие данные']);
                 return false;
             } else {
                 $query = "UPDATE users SET tel = '$tel' WHERE id = '$id'";
@@ -110,12 +112,12 @@ function validation(
             $result = mysqli_query($connection, $query);
 
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                echo "Некорректный формат email";
+                echo json_encode(['status' => 'fail', 'message' => 'Некорректный формат email']);
                 return false;
             }
 
             if (mysqli_num_rows($result) > 0) {
-                echo "Такой email уже существует. Введите другие данные";
+                echo json_encode(['status' => 'fail', 'message' => 'Такой email уже существует. Введите другие данные']);
                 return false;
             } else {
                 $query = "UPDATE users SET email = '$email' WHERE id = '$id'";
@@ -132,17 +134,15 @@ function validation(
         }
 
         if ($is_update) {
-            echo 'Данные успешно сохранены';
+            echo  json_encode(['status' => 'successfully', 'message' => 'Данные успешно сохранены']);
             return true;
         } else {
-            echo 'Новые данные не введены';
+            echo json_encode(['status' => 'fail', 'message' => 'Новые данные не введены']);
             return false;
         }
     } else {
-        echo 'Текущий пароль не совпадет с введенным паролем';
+        echo json_encode(['status' => 'fail', 'message' => 'Текущий пароль не совпадет с введенным паролем']);
         return false;
     }
 }
 
-//TODO видеть свои статьи.. типа своей стр
-//TODO возможность редактировать мою статью отсутсвует..

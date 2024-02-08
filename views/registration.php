@@ -30,6 +30,9 @@
     </form>
 
     <div class="error"></div>
+    <?php
+    include "../templates/footer.php";
+    ?>
 </div>
 </body>
 </html>

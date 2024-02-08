@@ -13,8 +13,7 @@ function allPosts()
 
 // Страница одной статьи
 function post($id)
-{   //статья из articles = heading,  category_id (чтобы получить название категории), author , article, image, created_at
-    //из табл categories надо title
+{
     global $connection;
     $id = mysqli_real_escape_string($connection, $id); // Экранирование значения $id. иначе может привести к уязвимости SQL-инъекции.
     $query = "SELECT c.title AS category, a.id, a.heading, a.author, a.created_at, a.image, a.article 
@@ -40,6 +39,7 @@ function categories(): array
 function articlesByCategoryId($id): array
 {
     global $connection;
+    $id = mysqli_real_escape_string($connection, $id);
     $query = "SELECT c.title AS category, a.id, a.heading, a.author, a.created_at, a.image, a.article 
         FROM articles AS a
         JOIN categories AS c ON c.id = a.category_id
@@ -57,5 +57,4 @@ function getSearch($search)
     $result = mysqli_query($connection, $query);
     return mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
-//Конструкция LIKE '%{$search}%' для поиска значений, которые содержат заданную подстроку $search.
-// Здесь % - это символ подстановки, который соответствует любому количеству символов (включая ноль символов).
+//Конструкция LIKE '%{$search}%' для поиска значений, которые содержат заданную подстроку $search

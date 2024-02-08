@@ -21,6 +21,9 @@
 
         <input type="submit" value="Войти">
     </form>
+    <?php
+    include "../templates/footer.php";
+    ?>
 </div>
 </body>
 </html>
