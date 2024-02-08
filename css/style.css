@@ -4,13 +4,42 @@ footer{
     background: #f8f9fa;;
     margin: 0 auto;
     text-align: center;
+    color: rgba(0,0,0,.55);
     padding-top: 25px;
 }
+
 footer a{
     text-decoration: none;
     font-size: 14px;
     margin-left: 10px;
+    color: rgba(0,0,0,.55);
 }
+
 footer nav a:hover{
     border-bottom: 1px solid ;
+    color: #0a58ca;
+}
+
+.graficlogo{
+    width: 100px;
+    height: 100px;
+}
+
+.social img{
+    margin-left: 10px;
+    margin-bottom: 10px;
+    width: 40px;
+    height: 40px;
+}
+
+.social .fb-link img:hover{
+    content: url("/uploads/icons/fb.png");
+}
+
+.social .insta-link img:hover{
+    content: url("/uploads/icons/insta.png");
+}
+
+.social .youtube-link  img:hover{
+    content: url("/uploads/icons/youtube.png");
 }

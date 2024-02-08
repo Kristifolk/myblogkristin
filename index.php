@@ -21,7 +21,7 @@ $posts = allPosts();
 include "templates/header.php";
 if (!empty($_SESSION['auth'])):
     ?>
-    <h1>myblogkristin</h1>
+    <h1>Myblogkristin</h1>
     <?php
     //TODO msg пропадает только после перезагрузки
     if (isset($_SESSION['msg'])) {
@@ -32,7 +32,7 @@ if (!empty($_SESSION['auth'])):
 
 <?php
 else: ?>
-    <h1>Приветствуем в myblogkristin</h1>
+    <h1>Приветствуем в Myblogkristin</h1>
     <h3>Войдите или зарегистрируйтесь, чтобы иметь возможность добавлять статьи</h3>
 
 <?php
