@@ -7,7 +7,7 @@ ini_set('display_errors', 1);
 include '../models/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $categoryId = $_POST['category'] ?? null ;
+    $categoryId = $_POST['category'] ?? null;
     $heading = $_POST['heading'];
     $author = $_POST['author'];
     $article = $_POST['article'];
@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!empty($heading) && !empty($author) && !empty($article) && !empty($image)) { // поля, заполняемые пользователем не пустые
 
-        $notValid = validation($heading, $author, $article, $image, $connection);
+        $notValid = validation($categoryId, $heading, $author, $article, $image, $connection);
         if ($notValid) {
             return;
         }
@@ -24,7 +24,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $imgtmp = $image['tmp_name'];
 
             $fileinfo = pathinfo($imgName);
-            $path ='../uploads/img/' . rand(1,1000).'.'.$fileinfo['extension'];//генерируется случайное имя файла для загруженного изображения путем объединения случайного числа от 1 до 1000 с расширением файла
+            $path = '../uploads/img/' . rand(
+                    1,
+                    1000
+                ) . '.' . $fileinfo['extension'];//генерируется случайное имя файла для загруженного изображения путем объединения случайного числа от 1 до 1000 с расширением файла
             $result = move_uploaded_file($imgtmp, $path);
 
             $query = "INSERT INTO articles (heading, author, article, image, category_id) VALUES ('$heading', '$author', '$article', '$path', $categoryId)";
@@ -55,6 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 function validation(
+    int $categoryId,
     string $heading,
     string $author,
     string $article,
@@ -70,13 +74,12 @@ function validation(
         return true;
     }
 
-//    if (!preg_match(
-//        "/^[a-zA-Zа-яА-ЯёЁ\s\d.,!?]*$/u",
-//        $category
-//    )) {// Регулярное выражение для проверки текста, выражение, которое позволяет использовать буквы латинского и кириллического алфавита, пробелы, цифры, а также знаки препинания (точка, запятая, вопросительный и восклицательный знаки).Рег. выражение, позволяет полю $category быть пустым
-//        echo "Некорректный ввод категории";
-//        return true;
-//    }
+    if (!is_numeric($categoryId))
+    {
+        echo "Некорректный ввод категории";
+        return true;
+    }
+
     if (!preg_match(
         "/^[a-zA-Zа-яА-ЯёЁ\s\d.,!?]+$/u",
         $heading

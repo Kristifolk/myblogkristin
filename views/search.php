@@ -17,7 +17,6 @@ include "../function.php";
     <?php
     include "../templates/header.php";
     ?>
-
     <!-- Статья START -->
     <div class="container">
         <div class="content row">
@@ -26,27 +25,39 @@ include "../function.php";
                 <?php
                 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                     $search = $_GET['search'];//значение от пользователя из поля поиска
-                    $articles = getSearch($search);
+                    if (!ctype_alnum($search)) {//ctype_alnum($search) проверяет, содержит ли строка $search только буквы и цифры
+                        echo "<p>Недопустимые символы в запросе. Должны быть только буквы и цифры.</p>";
+                    } else {
+                        $articles = getSearch($search);
+                        if (empty($articles)) {
+                            $searchText = htmlspecialchars(
+                                $search
+                            ); // Экранируем текст запроса для исключения xss аттак
+                            echo "<p>Ничего не найдено по запросу:  $searchText :(</p>";
+                        } else {
+                            foreach ($articles as $article):
+                                ?>
+                                <!-- ARTICLE-->
+                                <div class="single-post col">
+                                    <div class="card p-3">
+                                        <!-- картинка -->
+                                        <img src="<?= $article['image'] ?? '' ?>" class="card-img-top" alt="">
+                                        <div class="card-body">
+                                            <h5 class="card-title"><?= $article['heading']; ?></h5>
+                                            <i class="far fa-user">Автор: <?= $article['author']; ?></i>
+                                            <i class="far fa-calendar">Дата создания: <?= $article['created_at']; ?></i>
+                                        </div>
+                                        <div class="single-post-text col-12">
+                                            <p class="card-text"><?= $article['article']; ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php
+                            endforeach;
+                        }
+                    }
                 }
-                foreach ($articles as $article):
-                    ?>
-                    <!-- ARTICLE-->
-                    <div class="single-post col">
-                        <div class="card p-3">
-                            <!-- картинка -->
-                            <img src="<?= $article['image'] ?? '' ?>" class="card-img-top" alt="">
-                            <div class="card-body">
-                                <h5 class="card-title"><?= $article['heading']; ?></h5>
-                                <i class="far fa-user">Автор: <?= $article['author']; ?></i>
-                                <i class="far fa-calendar">Дата создания: <?= $article['created_at']; ?></i>
-                            </div>
-                            <div class="single-post-text col-12">
-                                <p class="card-text"><?= $article['article']; ?></p>
-                            </div>
-                        </div>
-                    </div>
-                <?php
-                endforeach; ?>
+                ?>
             </div>
         </div>
     </div>
