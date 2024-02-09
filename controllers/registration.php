@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($name) && !empty($tel) && !empty($email) && !empty($password) && !empty($confirmPassword)) { // поля, заполняемые пользователем не пустые
 
         $notValid = validation($password, $confirmPassword, $email, $tel, $name, $connection);
-        if ( $notValid) {
+        if ($notValid) {
             return;
         }
 
@@ -30,15 +30,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($result) {
             $_SESSION['auth'] = true;
             $_SESSION['author'] = $name;
-            header('Location: ../index.php');
-            //exit;
+            echo json_encode(['status' => 'successfully']);//редирект на главную
         } else {
-            echo 'Ошибка сохранения данных: ' . mysqli_error($connection);
+            //echo 'Ошибка сохранения данных: ' . mysqli_error($connection);
+            echo json_encode(['status' => 'fail', 'message' => 'Ошибка сохранения данных: ' . mysqli_error($connection)]
+            );
         }
 
         mysqli_close($connection);
     } else {
-        echo "Все поля обязательны для заполнения";
+        echo json_encode(['status' => 'fail', 'message' => 'Все поля обязательны для заполнения']
+        );     //выводится ошибка,есл отключить required в форме
     }
 }
 
@@ -49,15 +51,14 @@ function validation(
     int $tel,
     string $name,
     $connection
-) //валидация введенных данных
-{
+) {
     if ($password !== $confirmPassword) {
-        echo "Пороли не совпадают";
+        echo json_encode(['status' => 'fail', 'message' => 'Пороли не совпадают']); //выводится ошибка
         return true;
     }
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo "Некорректный формат email";
+        echo json_encode(['status' => 'fail', 'message' => 'Некорректный формат email']);//не выводится (
         return true;
     }
 
@@ -65,12 +66,13 @@ function validation(
         "/^\d{11}$/",
         $tel
     )) {//такой формат телефона 89289999999. Можно регулярку "/^\+?\d{1,3}\(?\d{3}\)?\d{2}-?\d{2}-?\d{3}$/" то пример +7(928)99-99-999 и 89289999999 подходит и надо приводить к одному виду для уникальности в БД
-        echo "Некорректный формат телефона";
+        echo json_encode(['status' => 'fail', 'message' => 'Некорректный формат телефона']
+        );//не выводится если "f" если меньше цифр то выводится сообщение
         return true;
     }
 
     if (!preg_match("/^[a-zA-Zа-яА-ЯёЁ\s]+$/u", $name)) {
-        echo "Некорректный формат имени";
+        echo json_encode(['status' => 'fail', 'message' => 'Некорректный формат имени']);//выводится ошибка
         return true;
     }
 
@@ -78,7 +80,9 @@ function validation(
     $result = mysqli_query($connection, $query);
 
     if (mysqli_num_rows($result) > 0) {
-        echo "Такой пользователь уже существует. Введите другие данные";//не уточняется что именно изменить name,tel,email
+        echo json_encode(['status' => 'fail', 'message' => 'Такой пользователь уже существует. Введите другие данные']
+        );//не указывается что именно почта или имя или телефон
+        //выводится ошибка
         return true;
     }
 }

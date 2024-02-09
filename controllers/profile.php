@@ -1,5 +1,6 @@
 <?php
 
+//TODO страница не по ТЗ
 //TODO при редактировании профиля надо заполнять все поля, а если я хочу поменять только почту. Только смена пароля не обязательна
 //TODO видеть свои статьи.. типа своей стр
 //TODO возможность редактировать мою статью отсутсвует..
@@ -12,15 +13,14 @@ include '../models/db.php';
 
 // Проверяем, что запрос является POST-запросом
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
     $name = $_POST['name'];
     $tel = $_POST['tel'];
     $email = $_POST['email'];
     $password = $_POST['password'];
     $new_password = $_POST['new_password'] ?? null;
-    $id =  $_SESSION['id'];
+    $id = $_SESSION['id'];
 
-    if (!empty($password)) { // поля, заполняемые пользователем не пустые
+    if (!empty($password)) { // поле, заполняемое пользователем не пустое
         $query = "SELECT * FROM users WHERE id = '$id'";
         $result = mysqli_query($connection, $query);
         $row = mysqli_fetch_assoc($result);//извлекается первая строка результатов запроса
@@ -48,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!$validation) {
             return;
         }
+        $_SESSION['author'] = $name;//если валидация прошла, то перезапись имени в сессии
         mysqli_close($connection);
     } else {
         echo json_encode(['status' => 'fail', 'message' => 'Пароль обязателен для заполнения']);
@@ -99,7 +100,9 @@ function validation(
                 return false;
             }
             if (mysqli_num_rows($result) > 0) {
-                echo json_encode(['status' => 'fail', 'message' => 'Такой телефон уже существует. Введите другие данные']);
+                echo json_encode(
+                    ['status' => 'fail', 'message' => 'Такой телефон уже существует. Введите другие данные']
+                );
                 return false;
             } else {
                 $query = "UPDATE users SET tel = '$tel' WHERE id = '$id'";
@@ -117,7 +120,8 @@ function validation(
             }
 
             if (mysqli_num_rows($result) > 0) {
-                echo json_encode(['status' => 'fail', 'message' => 'Такой email уже существует. Введите другие данные']);
+                echo json_encode(['status' => 'fail', 'message' => 'Такой email уже существует. Введите другие данные']
+                );
                 return false;
             } else {
                 $query = "UPDATE users SET email = '$email' WHERE id = '$id'";
@@ -134,7 +138,7 @@ function validation(
         }
 
         if ($is_update) {
-            echo  json_encode(['status' => 'successfully', 'message' => 'Данные успешно сохранены']);
+            echo json_encode(['status' => 'successfully', 'message' => 'Данные успешно сохранены']);
             return true;
         } else {
             echo json_encode(['status' => 'fail', 'message' => 'Новые данные не введены']);

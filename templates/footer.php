@@ -1,6 +1,19 @@
 <?php
-//изменить не в контейнере чтобы на всю ширину экрана
+
 ?>
+</div>
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+    <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <img src="/assets/images/cat_icon.jpeg" class="rounded me-2" alt="...">
+            <strong class="me-auto">Bootstrap</strong>
+            <small>11 mins ago</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+        </div>
+    </div>
+</div>
 
 <footer>
     <div class="conteiner">
@@ -34,4 +47,12 @@
         </div>
         <p>Myblogkristin. 2024</p>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
+    <script src="/assets/js/login.js"></script>
+    <script src="/assets/js/registration.js"></script>
+    <script src="/assets/js/addArticle.js"></script>
+    <script src="/assets/js/profile.js"></script>
+
 </footer>

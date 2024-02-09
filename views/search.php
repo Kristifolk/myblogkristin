@@ -25,7 +25,9 @@ include "../function.php";
                 <?php
                 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                     $search = $_GET['search'];//значение от пользователя из поля поиска
-                    if (!ctype_alnum($search)) {//ctype_alnum($search) проверяет, содержит ли строка $search только буквы и цифры
+                    if (!ctype_alnum(
+                        $search
+                    )) {//ctype_alnum($search) проверяет, содержит ли строка $search только буквы и цифры
                         echo "<p>Недопустимые символы в запросе. Должны быть только буквы и цифры.</p>";
                     } else {
                         $articles = getSearch($search);

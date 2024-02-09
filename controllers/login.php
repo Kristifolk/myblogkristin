@@ -18,38 +18,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $result = mysqli_query($connection, $query);
 
+        if ($result && mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);//извлекается первая строка результатов запроса
+            $name = $row['name'];
+            $tel = $row['tel'];
+            $email = $row['email'];
+            $id = $row['id'];
+            $hashedPassword = $row['password'];// Хешированный пароль из базы данных
 
-        if ($result) {
-            if (mysqli_num_rows($result) > 0) {
-                $row = mysqli_fetch_assoc($result);//извлекается первая строка результатов запроса
-                $name = $row['name'];
-                $tel = $row['tel'];
-                $email = $row['email'];
-                $id = $row['id'];
-                $hashedPassword = $row['password'];// Хешированный пароль из базы данных
-
-                //сравнение хешированного пароля с введенным пользователем паролем
-                if (password_verify($password, $hashedPassword)) {
-                    // Пароль совпадает, редирект
-                    if (!empty($row)) {
-                        $_SESSION['auth'] = true;
-                        $_SESSION['id'] = $id;//TODO не видит Id из сессии для редактирования профиля, если убирать стр, то убрат это
-                        $_SESSION['author'] = $name;
-                    }
-                    header('Location: ../index.php');
-                    exit;
-                } else {
-                    echo "Пароль не совпадает";
+            //сравнение хешированного пароля с введенным пользователем паролем
+            if (password_verify($password, $hashedPassword)) {
+                // Пароль совпадает, редирект
+                if (!empty($row)) {
+                    $_SESSION['auth'] = true;
+                    $_SESSION['id'] = $id;
+                    $_SESSION['author'] = $name;
                 }
+                echo json_encode(['status' => 'successfully']);//редирект на главную
+                exit;/////////////////////надо ли
             } else {
-                echo "Неверный логин или пароль";
+                echo json_encode(['status' => 'fail', 'message' => 'Пароль не совпадает']);
             }
         } else {
-            echo 'Ошибка аутентификации';
+            echo json_encode(['status' => 'fail', 'message' => 'Неверный логин или пароль']);
         }
         mysqli_close($connection);
     } else {
-        echo "Все поля обязательны для заполнения";
+        echo json_encode(['status' => 'fail', 'message' => 'Все поля обязательны для заполнения']);
     }
 }
 
@@ -62,7 +57,12 @@ function validation(string $login) //валидация введенных да�
         $query = "SELECT * FROM users WHERE tel = '$login'";
         return $query;
     } else {
-        echo "Авторизация возможна по телефону, например 89289999999, или email, например test@test.ru";
+        echo json_encode(
+            [
+                'status' => 'fail',
+                'message' => 'Авторизация возможна по телефону, например 89289999999, или email, например test@test.ru'
+            ]
+        );
         return false;
     }
 }

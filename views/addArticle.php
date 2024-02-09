@@ -26,7 +26,8 @@ $categories = categories();
             </div>
         </div>
 
-        <form id="addArticleForm" action="/controllers/addArticle.php" method="POST" enctype="multipart/form-data">
+        <form id="addArticleForm" action="/controllers/addArticle.php" method="POST"
+              enctype="multipart/form-data">
             <div class="row">
                 <div class="col-12">
                     <label for="category" class="form-label">Категория:</label>

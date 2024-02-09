@@ -15,7 +15,11 @@ function allPosts()
 function post($id)
 {
     global $connection;
-    $id = mysqli_real_escape_string($connection, $id); // Экранирование значения $id. иначе может привести к уязвимости SQL-инъекции.
+    //$id = (int)$id; или проста нак делать?
+    $id = mysqli_real_escape_string(
+        $connection,
+        $id
+    ); // Экранирование значения $id. иначе может привести к уязвимости SQL-инъекции.
     $query = "SELECT c.title AS category, a.id, a.heading, a.author, a.created_at, a.image, a.article 
         FROM articles AS a
         JOIN categories AS c ON c.id = a.category_id
@@ -32,7 +36,10 @@ function categories(): array
     global $connection;
     $query = "SELECT * FROM categories";
     $result = mysqli_query($connection, $query);
-    return mysqli_fetch_all($result, MYSQLI_ASSOC);//MYSQLI_ASSOC - это константа, которая указывает функции mysqli_fetch_all() возвращать результат запроса в виде ассоциативного массива
+    return mysqli_fetch_all(
+        $result,
+        MYSQLI_ASSOC
+    );//MYSQLI_ASSOC - это константа, которая указывает функции mysqli_fetch_all() возвращать результат запроса в виде ассоциативного массива
 }
 
 // Все посты одной категории
