@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+var_dump($_SESSION['id']);
 error_reporting(E_ALL);//показывать ошибки
 ini_set('display_errors', 1);
 ?>
@@ -34,7 +35,7 @@ ini_set('display_errors', 1);
             <label for="password">Текущий пароль:</label>
             <input type="password" name="password" id="password" placeholder="Текущий пароль"><br><br>
 
-            <input type="hidden" name="id">
+            <input type="hidden"  name="id" value="<?= $_SESSION['id'] ?>">
 
             <input type="submit" value="Сохранить">
         </form>

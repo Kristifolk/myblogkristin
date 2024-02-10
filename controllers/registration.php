@@ -27,9 +27,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $query = "INSERT INTO users (name, tel, email, password) VALUES ('$name', '$tel', '$email', '$hashedPassword')";
         $result = mysqli_query($connection, $query);
 
+        $query = "SELECT * FROM users WHERE email = '$email' AND name = '$name' AND tel = '$tel' ";
+        $result = mysqli_query($connection, $query);
+        $row = mysqli_fetch_assoc($result);
+
         if ($result) {
             $_SESSION['auth'] = true;
             $_SESSION['author'] = $name;
+            $_SESSION['id'] = $row['id'];
             echo json_encode(['status' => 'successfully']);//редирект на главную
         } else {
             //echo 'Ошибка сохранения данных: ' . mysqli_error($connection);

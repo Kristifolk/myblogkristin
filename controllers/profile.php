@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
     $new_password = $_POST['new_password'] ?? null;
-    $id = $_SESSION['id'];
+    $id = $_POST['id'];
 
     if (!empty($password)) { // поле, заполняемое пользователем не пустое
         $query = "SELECT * FROM users WHERE id = '$id'";
@@ -45,9 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $is_update,
             $connection
         );
-        if (!$validation) {
-            return;
-        }
+
         $_SESSION['author'] = $name;//если валидация прошла, то перезапись имени в сессии
         mysqli_close($connection);
     } else {
