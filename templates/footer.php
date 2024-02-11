@@ -54,4 +54,6 @@
     <script src="/assets/js/registration.js"></script>
     <script src="/assets/js/addArticle.js"></script>
     <script src="/assets/js/profile.js"></script>
+    <script src="/assets/js/checkStatusWithAlert.js"></script>
+    <script src="/assets/js/checkStatusWithoutAlert.js"></script>
 </footer>
