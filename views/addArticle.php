@@ -26,7 +26,6 @@ $categories = categories();
                 <h1 class="mb-3">Добавить новую статью в myblogkristin</h1>
             </div>
         </div>
-
         <form id="addArticleForm" action="/controllers/addArticle.php" method="POST"
               enctype="multipart/form-data">
             <div class="row">
