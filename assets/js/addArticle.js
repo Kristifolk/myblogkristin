@@ -4,14 +4,10 @@ if (addArticleForm) {
         e.preventDefault();
         let xhr = new XMLHttpRequest();
         xhr.onloadend = function () {
-            handleArticle(xhr);
+            checkStatusWithAlert(xhr);
         }
         xhr.open('POST', addArticleForm.action);
         let formData = new FormData(addArticleForm);
         xhr.send(formData);
     });
-}
-
-function handleArticle(xhr) {
-    checkStatusWithAlert(xhr);
 }

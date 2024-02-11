@@ -5,7 +5,7 @@
 <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
     <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
-            <img src="/assets/images/cat_icon.jpeg" class="rounded me-2" alt="...">
+            <img src="/assets/images/icons/cat_icon.jpeg" class="rounded me-2" alt="...">
             <strong class="me-auto">Bootstrap</strong>
             <small>11 mins ago</small>
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
@@ -37,12 +37,12 @@
         </div>
         <div class="footer-col">
             <div class="logo">
-                <a href="/index.php"><img class="graficlogo" src="/uploads/icons/favorites.png" alt="logo"></a>
+                <a href="/index.php"><img class="graficlogo" src="/assets/images/icons/favorites.png" alt="logo"></a>
             </div>
             <div class="social">
-                <a href="#" class="fb-link"><img src="/uploads/icons/fb_gray.png" alt="Facebook"></a>
-                <a href="#" class="insta-link"><img src="/uploads/icons/insta_gray.png" alt="Instagram"></a>
-                <a href="#" class="youtube-link"><img src="/uploads/icons/youtube_gray.png" alt="YouTube"></a>
+                <a href="#" class="fb-link"><img src="/assets/images/icons/fb_gray.png" alt="Facebook"></a>
+                <a href="#" class="insta-link"><img src="/assets/images/icons/insta_gray.png" alt="Instagram"></a>
+                <a href="#" class="youtube-link"><img src="/assets/images/icons/youtube_gray.png" alt="YouTube"></a>
             </div>
         </div>
         <p>Myblogkristin. 2024</p>

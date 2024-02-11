@@ -35,7 +35,7 @@ $imgName = $image['name'];
 $imgtmp = $image['tmp_name'];
 
 $fileinfo = pathinfo($imgName);
-$path = '../uploads/img/' . rand(
+$path = '../assets/images/' . rand(
         1,
         1000
     ) . '.' . $fileinfo['extension'];//генерируется случайное имя файла для загруженного изображения путем объединения случайного числа от 1 до 1000 с расширением файла
@@ -71,11 +71,11 @@ echo json_encode(['status' => 'fail', 'message' => 'Ошибка сохране�
 exit();
 
 function validation(
-    int $categoryId,
+    int    $categoryId,
     string $heading,
     string $author,
     string $article,
-    $image,//array
+           $image,//array
 ): bool //валидация введенных данных
 {
     $allowedTypes = ['image/jpeg', 'image/png']; // разрешенные типы файлов

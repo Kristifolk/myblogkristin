@@ -4,14 +4,10 @@ if (profileForm) {
         e.preventDefault();
         let xhr = new XMLHttpRequest();
         xhr.onloadend = function () {
-            handleProfile(xhr);
+            checkStatusWithAlert(xhr);
         }
         xhr.open('POST', profileForm.action);
         let formData = new FormData(profileForm);
         xhr.send(formData);
     });
-}
-
-function handleProfile(xhr) {
-    checkStatusWithAlert(xhr);
 }

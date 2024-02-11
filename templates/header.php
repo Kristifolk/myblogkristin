@@ -16,6 +16,9 @@
                     <?php
                     if (!empty($_SESSION['auth'])): ?>
                         <li class="nav-item">
+                            <a class="nav-link disabled" href="#">Hi <?= $_SESSION['author'] ?></a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="/views/profile.php">Редактировать профиль</a>
                         </li>
                         <li class="nav-item">

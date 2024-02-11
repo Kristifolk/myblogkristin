@@ -24,12 +24,13 @@ ul {
     list-style: none;
 }
 
-.page{
+.page {
     overflow: hidden;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
+
 .row {
     display: flex;
     flex-wrap: wrap;
@@ -55,13 +56,13 @@ ul {
 }
 
 .social .fb-link img:hover {
-    content: url("/uploads/icons/fb.png");
+    content: url("/assets/images/icons/fb.png");
 }
 
 .social .insta-link img:hover {
-    content: url("/uploads/icons/insta.png");
+    content: url("/assets/images/icons/insta.png");
 }
 
 .social .youtube-link img:hover {
-    content: url("/uploads/icons/youtube.png");
+    content: url("/assets/images/icons/youtube.png");
 }

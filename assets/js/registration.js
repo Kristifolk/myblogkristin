@@ -4,14 +4,10 @@ if (registrationForm) {
         e.preventDefault();
         let xhr = new XMLHttpRequest();
         xhr.onloadend = function () {
-            handleRegistration(xhr);
+            checkStatusWithoutAlert(xhr);
         }
         xhr.open('POST', registrationForm.action);
         let formData = new FormData(registrationForm);
         xhr.send(formData);
     });
-}
-
-function handleRegistration(xhr) {
-    checkStatusWithoutAlert(xhr);
 }
