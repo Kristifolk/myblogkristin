@@ -6,19 +6,16 @@ include "../function.php";
 error_reporting(E_ALL);//показывать ошибки
 ini_set('display_errors', 1);
 $categories = categories();
-//var_dump($categories);
 $postId = $_GET['post'] ?? null;
 $title = '';
 if ($postId) {
     $articles = articlesByCategoryId($postId);
-    $title = $categories[array_search(
-        $postId,
-        array_column($categories, 'id')
-    )]['title'];//array_search — Осуществляет поиск данного значения в массиве и возвращает ключ первого найденного элемента в случае успешного выполнения
+    $title = $categories[array_search($postId, array_column($categories, 'id'))]['title'];//array_search — Осуществляет поиск данного значения в массиве и возвращает ключ первого найденного элемента в случае успешного выполнения
 } else {
     $articles = [];
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,7 +53,7 @@ if ($postId) {
                             </div>
                         </div>
                     <?php
-                    endforeach;;
+                    endforeach;
                     ?>
                 </div>
             </div>

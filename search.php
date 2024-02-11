@@ -2,8 +2,8 @@
 
 include 'models/db.php';
 include "function.php";
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,7 +27,7 @@ include "templates/header.php";
                 $articles = getSearch($search);
             }
             foreach ($articles as $article):
-            ?>
+                ?>
                 <!-- ARTICLE-->
                 <div class="single-post col">
                     <div class="card p-3">
@@ -47,6 +47,5 @@ include "templates/header.php";
         </div>
     </div>
 </div>
-
 </body>
 </html>

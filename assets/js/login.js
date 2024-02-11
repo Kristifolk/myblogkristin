@@ -12,7 +12,6 @@ if (loginForm) {
     });
 }
 
-
 function handleLogin(xhr) {
     let data = JSON.parse(xhr.response);
     if (data.status === "fail") {

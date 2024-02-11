@@ -6,8 +6,7 @@ include "../function.php";
 error_reporting(E_ALL);//показывать ошибки
 ini_set('display_errors', 1);
 $categories = categories();
-$result = post($_GET['post']);
-$post = mysqli_fetch_assoc($result);
+$post = post($_GET['post']);
 ?>
 
 <!DOCTYPE html>
@@ -50,11 +49,10 @@ $post = mysqli_fetch_assoc($result);
             ?>
         </div>
     </div>
-</div>
-<!-- Статья END -->
-<?php
-include "../templates/footer.php";
-?>
+    <!-- Статья END -->
+    <?php
+    include "../templates/footer.php";
+    ?>
 </div>
 </body>
 </html>

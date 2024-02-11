@@ -7,8 +7,8 @@ error_reporting(E_ALL);//показывать ошибки
 ini_set('display_errors', 1);
 $categories = categories();
 $posts = allPosts();
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

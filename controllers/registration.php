@@ -6,7 +6,6 @@ error_reporting(E_ALL);//показывать ошибки
 ini_set('display_errors', 1);
 include '../models/db.php';
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'];
     $tel = $_POST['tel'];
@@ -53,10 +52,11 @@ function validation(
     string $password,
     string $confirmPassword,
     string $email,
-    int $tel,
+    int    $tel,
     string $name,
-    $connection
-) {
+           $connection
+)
+{
     if ($password !== $confirmPassword) {
         echo json_encode(['status' => 'fail', 'message' => 'Пороли не совпадают']); //выводится ошибка
         return true;

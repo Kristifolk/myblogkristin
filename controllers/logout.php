@@ -17,4 +17,3 @@ if (ini_get("session.use_cookies")) {
 // Уничтожить сессию
 session_unset();
 header("Location: ../index.php");
-exit;

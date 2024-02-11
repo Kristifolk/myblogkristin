@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
     $new_password = $_POST['new_password'] ?? null;
-    $id = $_POST['id'];
+    $id = $_SESSION['id'];
 
     if (!empty($password)) { // поле, заполняемое пользователем не пустое
         $query = "SELECT * FROM users WHERE id = '$id'";
@@ -28,8 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $bd_tel = $row['tel'];
         $bd_email = $row['email'];
         $hashedPassword = $row['password'];// Хешированный пароль из базы данных
-
-        $is_update = false;
 
         $validation = validation(
             $id,
@@ -42,7 +40,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email,
             $bd_email,
             $new_password,
-            $is_update,
             $connection
         );
 
@@ -64,9 +61,10 @@ function validation(
     $email,
     $bd_email,
     $new_password,
-    $is_update,
     $connection
-) {
+)
+{
+    $is_update = false;
     if (password_verify($password, $hashedPassword)) {//Проверка текущего пароля
         if ($name !== $bd_name) {
             $query = "SELECT * FROM users WHERE name = '$name'";
@@ -78,7 +76,7 @@ function validation(
             }
             if (mysqli_num_rows($result) > 0) {
                 echo json_encode(['status' => 'fail', 'message' => 'Такое имя уже существует. Введите другие данные']);
-                return;
+                return false;
             } else {
                 $query = "UPDATE users SET name = '$name' WHERE id = '$id'";
                 mysqli_query($connection, $query);
@@ -147,4 +145,3 @@ function validation(
         return false;
     }
 }
-

@@ -35,7 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['author'] = $name;
                 }
                 echo json_encode(['status' => 'successfully']);//редирект на главную
-                exit;/////////////////////надо ли
             } else {
                 echo json_encode(['status' => 'fail', 'message' => 'Пароль не совпадает']);
             }
@@ -66,5 +65,3 @@ function validation(string $login) //валидация введенных да�
         return false;
     }
 }
-
-

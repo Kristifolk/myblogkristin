@@ -15,19 +15,14 @@ function allPosts()
 function post($id)
 {
     global $connection;
-    //$id = (int)$id; или проста нак делать?
-    $id = mysqli_real_escape_string(
-        $connection,
-        $id
-    ); // Экранирование значения $id. иначе может привести к уязвимости SQL-инъекции.
+    //$id = mysqli_real_escape_string($connection, $id); // Экранирование значения $id. иначе может привести к уязвимости SQL-инъекции.
+    $id = (int)$id;
     $query = "SELECT c.title AS category, a.id, a.heading, a.author, a.created_at, a.image, a.article 
         FROM articles AS a
         JOIN categories AS c ON c.id = a.category_id
         WHERE a.id=$id";
-//    $query = "SELECT c.title AS category, a.id, a.heading, a.author, a.created_at, a.image, a.article
-//        FROM articles AS a
-//        JOIN categories AS c ON c.id = a.category_id";
-    return mysqli_query($connection, $query);
+    $result = mysqli_query($connection, $query);
+    return mysqli_fetch_assoc($result);
 }
 
 //Список категорий
