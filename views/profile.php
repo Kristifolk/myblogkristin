@@ -29,27 +29,27 @@ ini_set('display_errors', 1);
             <div class="row">
                 <div class="col-12">
                     <label for="name" class="form-label">Имя:</label>
-                    <input type="text" name="name" id="name" placeholder="Имя" class="form-control"><br><br>
+                    <input type="text" name="name" id="name" placeholder="Имя" class="form-control"><br>
                 </div>
                 <div class="col-12 mt-3">
                     <label for="tel" class="form-label">Телефон:</label>
-                    <input type="tel" name="tel" id="tel" placeholder="+7(999) 99-99-999" class="form-control"><br><br>
+                    <input type="tel" name="tel" id="tel" placeholder="+7(999) 99-99-999" class="form-control"><br>
                 </div>
                 <div class="col-12 mt-3">
                     <label for="email" class="form-label">Email:</label>
-                    <input type="email" name="email" id="email" placeholder="test@test.ru" class="form-control"><br><br>
+                    <input type="email" name="email" id="email" placeholder="test@test.ru" class="form-control"><br>
                 </div>
                 <div class="col-12 mt-3">
                     <label for="new_password" class="form-label">Новый пароль:</label>
                     <input type="password" name="new_password" id="new_password" placeholder="Новый пароль"
-                           class="form-control"><br><br>
+                           class="form-control"><br>
                 </div>
                 <div class="col-12 mt-3">
                     <label for="password" class="form-label">Текущий пароль:</label>
                     <input type="password" name="password" id="password" placeholder="Текущий пароль"
-                           class="form-control"><br><br>
+                           class="form-control"><br>
                 </div>
-                <div class="col-12 d-grid g-3 mt-3">
+                <div class="col-3 d-grid g-3 mt-3">
                     <input type="submit" value="Сохранить" class="btn btn-success">
                 </div>
             </div>

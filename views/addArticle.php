@@ -54,7 +54,7 @@ $categories = categories();
                     <label for="article" class="form-label">Статья:</label>
                     <textarea name="article" id="article" placeholder="Текст статьи" class="form-control"></textarea>
                 </div>
-                <div class="col-12 d-grid g-3 mt-3">
+                <div class="col-3 d-grid g-3 mt-3">
                     <input type="submit" value="Отправить" class="btn btn-success">
                 </div>
             </div>
