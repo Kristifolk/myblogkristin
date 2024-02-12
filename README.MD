@@ -29,7 +29,9 @@ git clone https://github.com/Kristifolk/myblogkristin.git
 
 cd myblogkristin
 
-docker-compose up -d --build 
+docker compose up -d --build 
+
  ```
 
+перейти в браузере по адресу http://127.0.0.1:82
 
