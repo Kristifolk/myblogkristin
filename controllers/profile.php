@@ -21,6 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $_SESSION['id'];
 
     if (!empty($password)) { // поле, заполняемое пользователем не пустое
+        //принудительно число $id надо тут? тк $id все равно берется из сессии, а не пользователя
+        $id = (int)$id;
         $query = "SELECT * FROM users WHERE id = '$id'";
         $result = mysqli_query($connection, $query);
         $row = mysqli_fetch_assoc($result);//извлекается первая строка результатов запроса
@@ -67,7 +69,9 @@ function validation(
     $is_update = false;
     if (password_verify($password, $hashedPassword)) {//Проверка текущего пароля
         if ($name !== $bd_name) {
-            $query = "SELECT * FROM users WHERE name = '$name'";
+            //экранирование имени
+            $escapedName = mysqli_real_escape_string($connection, $name);
+            $query = "SELECT * FROM users WHERE name = '$escapedName'";
             $result = mysqli_query($connection, $query);
 
             if (!preg_match("/^[a-zA-Zа-яА-ЯёЁ\s]+$/u", $name)) {
@@ -78,12 +82,19 @@ function validation(
                 echo json_encode(['status' => 'fail', 'message' => 'Такое имя уже существует. Введите другие данные']);
                 return false;
             } else {
-                $query = "UPDATE users SET name = '$name' WHERE id = '$id'";
-                mysqli_query($connection, $query);
+//                $query = "UPDATE users SET name = '$name' WHERE id = '$id'";
+//                mysqli_query($connection, $query);
+//                $is_update = true;
+                $query = "UPDATE users SET name = ? WHERE id = '$id'";
+                $stmt = mysqli_prepare($connection, $query);//подготовленное выражение с указанием типа
+                mysqli_stmt_bind_param($stmt, "s", $name);
+                mysqli_stmt_execute($stmt);
                 $is_update = true;
             }
         }
         if ($tel !== $bd_tel) {
+            //принудительно число tel
+            $tel = (int)$tel;
             $query = "SELECT * FROM users WHERE tel = '$tel'";
 
             $result = mysqli_query($connection, $query);
@@ -101,16 +112,20 @@ function validation(
                 );
                 return false;
             } else {
-                $query = "UPDATE users SET tel = '$tel' WHERE id = '$id'";
-                mysqli_query($connection, $query);
+                $query = "UPDATE users SET tel = ? WHERE id = '$id'";
+                $stmt = mysqli_prepare($connection, $query);
+                mysqli_stmt_bind_param($stmt, "i", $tel);
+                mysqli_stmt_execute($stmt);
                 $is_update = true;
             }
         }
         if ($email !== $bd_email) {
-            $query = "SELECT * FROM users WHERE email = '$email'";
+            //экранирование email
+            $escapedEmail = mysqli_real_escape_string($connection, $email);
+            $query = "SELECT * FROM users WHERE email = '$escapedEmail'";
             $result = mysqli_query($connection, $query);
 
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            if (!filter_var($escapedEmail, FILTER_VALIDATE_EMAIL)) {
                 echo json_encode(['status' => 'fail', 'message' => 'Некорректный формат email']);
                 return false;
             }
@@ -120,16 +135,26 @@ function validation(
                 );
                 return false;
             } else {
-                $query = "UPDATE users SET email = '$email' WHERE id = '$id'";
-                mysqli_query($connection, $query);
+//                $query = "UPDATE users SET email = '$email' WHERE id = '$id'";
+//                mysqli_query($connection, $query);
+//                $is_update = true;
+                $query = "UPDATE users SET email = ? WHERE id = '$id'";
+                $stmt = mysqli_prepare($connection, $query);
+                mysqli_stmt_bind_param($stmt, "s", $email);
+                mysqli_stmt_execute($stmt);
                 $is_update = true;
             }
         }
         if ($new_password) {
             // Хеширование пароля
             $hashedPassword = password_hash($new_password, PASSWORD_DEFAULT);
-            $query = "UPDATE users SET password = '$hashedPassword' WHERE id = '$id'";
-            mysqli_query($connection, $query);
+//            $query = "UPDATE users SET password = '$hashedPassword' WHERE id = '$id'";
+//            mysqli_query($connection, $query);
+//            $is_update = true;
+            $query = "UPDATE users SET password = ? WHERE id = '$id'";
+            $stmt = mysqli_prepare($connection, $query);
+            mysqli_stmt_bind_param($stmt, "s", $hashedPassword);
+            mysqli_stmt_execute($stmt);
             $is_update = true;
         }
 

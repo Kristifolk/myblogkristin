@@ -23,10 +23,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Хеширование пароля
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        $query = "INSERT INTO users (name, tel, email, password) VALUES ('$name', '$tel', '$email', '$hashedPassword')";
-        $result = mysqli_query($connection, $query);
+//        $query = "INSERT INTO users (name, tel, email, password) VALUES ('$name', '$tel', '$email', '$hashedPassword')";
+//        $result = mysqli_query($connection, $query);
+        $query = "INSERT INTO users (name, tel, email, password) VALUES (?, ?, ?, ?)";
+        $stmt = mysqli_prepare($connection, $query);
+        mysqli_stmt_bind_param($stmt, "siss", $name, $tel, $email, $hashedPassword);
+        $result = mysqli_stmt_execute($stmt);
 
-        $query = "SELECT * FROM users WHERE email = '$email' AND name = '$name' AND tel = '$tel' ";
+        //экранирование email
+        $escapedEmail = mysqli_real_escape_string($connection, $email);
+        //принудительно число tel
+        $tel = (int)$tel;
+        //экранирование имени
+        $escapedName = mysqli_real_escape_string($connection, $name);
+        $query = "SELECT * FROM users WHERE email = '$escapedEmail' AND name = '$escapedName' AND tel = '$tel' ";
         $result = mysqli_query($connection, $query);
         $row = mysqli_fetch_assoc($result);
 
@@ -35,10 +45,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['author'] = $name;
             $_SESSION['id'] = $row['id'];
             echo json_encode(['status' => 'successfully']);//редирект на главную
+            mysqli_close($connection);
+            exit();
         } else {
             //echo 'Ошибка сохранения данных: ' . mysqli_error($connection);
             echo json_encode(['status' => 'fail', 'message' => 'Ошибка сохранения данных: ' . mysqli_error($connection)]
             );
+            mysqli_close($connection);
+            exit();
         }
 
         mysqli_close($connection);
@@ -52,11 +66,10 @@ function validation(
     string $password,
     string $confirmPassword,
     string $email,
-    int    $tel,
+    int $tel,
     string $name,
-           $connection
-)
-{
+    $connection
+) {
     if ($password !== $confirmPassword) {
         echo json_encode(['status' => 'fail', 'message' => 'Пороли не совпадают']); //выводится ошибка
         return true;
@@ -68,8 +81,9 @@ function validation(
     }
 
     //такой формат телефона 89289999999. Можно регулярку "/^\+?\d{1,3}\(?\d{3}\)?\d{2}-?\d{2}-?\d{3}$/" то пример +7(928)99-99-999 и 89289999999 подходит и надо приводить к одному виду для уникальности в БД
-    if (!preg_match("/^\d{11}$/", $tel)) {
-        //не выводится если "f" если меньше цифр то выводится сообщение
+       if (!preg_match("/^\d{11}$/", $tel)) {
+    //if (!preg_match("/^\d{10,11}$/", $tel)) {
+        //не выводится сообщение если "f" или ' если меньше цифр то выводится сообщение
         echo json_encode(['status' => 'fail', 'message' => 'Некорректный формат телефона']);
         return true;
     }
@@ -79,16 +93,23 @@ function validation(
         return true;
     }
 
-    $query = "SELECT * FROM users WHERE email = '$email' OR name = '$name' OR tel = '$tel' ";
+    //экранирование email
+    $escapedEmail = mysqli_real_escape_string($connection, $email);
+    //принудительно число tel
+    $tel = (int)$tel;
+    //экранирование имени
+    $escapedName = mysqli_real_escape_string($connection, $name);
+    $query = "SELECT * FROM users WHERE email = '$escapedEmail' OR name = '$escapedName' OR tel = '$tel' ";
     $result = mysqli_query($connection, $query);
 
     if (mysqli_num_rows($result) > 0) {
-        //не указывается что именно почта или имя или телефон
+        //не указывается что именно почта, или имя, или телефон
         echo json_encode([
             'status' => 'fail',
             'message' => 'Такой пользователь уже существует. Введите другие данные'
         ], true);
         //выводится ошибка
+        mysqli_close($connection);
         return true;
     }
 }
