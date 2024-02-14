@@ -44,8 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $new_password,
             $connection
         );
-
-        $_SESSION['author'] = $name;//если валидация прошла, то перезапись имени в сессии
         mysqli_close($connection);
     } else {
         echo json_encode(['status' => 'fail', 'message' => 'Пароль обязателен для заполнения']);
@@ -53,16 +51,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 function validation(
-    $id,
-    $password,
-    $hashedPassword,
-    $name,
-    $bd_name,
-    $tel,
-    $bd_tel,
-    $email,
-    $bd_email,
-    $new_password,
+    int $id,
+    string $password,
+    string $hashedPassword,
+    string $name,
+    string $bd_name,
+    int|string $tel,
+    int $bd_tel,
+    string $email,
+    string $bd_email,
+    string $new_password,
     $connection
 )
 {
@@ -159,6 +157,7 @@ function validation(
         }
 
         if ($is_update) {
+            $_SESSION['author'] = $name;//перезапись имени в сессии
             echo json_encode(['status' => 'successfully', 'message' => 'Данные успешно сохранены']);
             return true;
         } else {
