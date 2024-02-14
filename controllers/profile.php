@@ -20,8 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $new_password = $_POST['new_password'] ?? null;
     $id = $_SESSION['id'];
 
-    if (!empty($password)) { // поле, заполняемое пользователем не пустое
-        //принудительно число $id надо тут? тк $id все равно берется из сессии, а не пользователя
+    if (!empty($password)) {
+        //принудительно число $id надо тут? тк $id все равно берется из сессии, а не от пользователя
         $id = (int)$id;
         $query = "SELECT * FROM users WHERE id = '$id'";
         $result = mysqli_query($connection, $query);
